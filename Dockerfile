@@ -1,11 +1,11 @@
 FROM node:14.7.0-alpine as base
 WORKDIR /stock-market/
-COPY public/ /stock-market/public
-COPY src/ /stock-market/src
 COPY package.json /stock-market/
 RUN apk --no-cache add nginx && \
     npm install --legacy-peer-deps && \
     rm -rf /var/cache/apk/*
+COPY public/ /stock-market/public
+COPY src/ /stock-market/src
 COPY . .
 
 RUN mkdir -p usr/share/nginx
