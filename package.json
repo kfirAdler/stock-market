@@ -63,6 +63,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "@babel/plugin-proposal-private-property-in-object": "^1.0.6"
   }
 }
