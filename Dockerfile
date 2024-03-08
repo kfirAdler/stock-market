@@ -1,25 +1,13 @@
-## running the Client
-# FROM node:13.12.0-alpine
-# COPY ./ ./
-# RUN npm install --legacy-peer-deps --silent
-# RUN npm install react-scripts@3.4.1 -g --silent 
-# RUN npm run build
-# ENTRYPOINT ["npm", "start"]
-
-
-
-FROM node:14.7.0-alpine as build
+FROM node:14.7.0-alpine as base
 WORKDIR /stock-market/
 COPY public/ /stock-market/public
 COPY src/ /stock-market/src
 COPY package.json /stock-market/
 RUN npm install --legacy-peer-deps
-# RUN npm install react-scripts@3.4.1 -g --silent
 RUN apk update 
 RUN apk add nginx
-# COPY ./ ./
 COPY . .
-# RUN npm run build
+
 RUN mkdir -p usr/share/nginx
 RUN mkdir -p usr/share/nginx/html
 # COPY build /usr/share/nginx/html/
@@ -35,21 +23,10 @@ RUN npm run build
 
 # running the API server
 FROM node:13.12.0-alpine3.11
-COPY --from=build ./ ./
-COPY ./ ./
+COPY --from=production /stock-market /stock-market
+WORKDIR /stock-market
 RUN npm install --legacy-peer-deps
 RUN apk update
-#RUN apk add ruby
-#RUN gem install fernet-cli
-#RUN apk add --no-cache \
-#    python3 \
-#    py3-pip \
-#    && pip3 install --upgrade pip \
-#    && pip3 install \
-#    awscli \
-#    && rm -rf /var/cache/apk/*
 
-#RUN aws --version 
-
-RUN ["chmod", "+x", "/backend/app/runCommands.sh"]
-ENTRYPOINT ["/backend/app/runCommands.sh"]
+RUN ["chmod", "+x", "/stock-market/backend/app/runCommands.sh"]
+ENTRYPOINT ["/stock-market/backend/app/runCommands.sh"]
