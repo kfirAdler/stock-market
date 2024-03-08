@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300&display=swap');
+
+body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    /* Set a background color of your choice */
+}
+
+.title {
+    font-family: 'Assistant', 'Calibri', sans-serif;
+    font-size: 2.5em;
+    color: #333;
+    /* Set a color of your choice */
+}
+
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    transition: transform 1.5s ease-in-out;
+}
+
+.animate {
+    transform: translateY(-50vh);
+}
