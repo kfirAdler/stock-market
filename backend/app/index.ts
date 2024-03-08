@@ -1,5 +1,4 @@
-import express, { Request, Response } from 'express';
-import axios from 'axios';
+import * as express from 'express';
 import cheerio from 'cheerio';
 import cors from 'cors';
 
@@ -50,7 +49,7 @@ function parseStockDataFromHTML(html: string): any[] {
     return historicalData;
 }
 
-app.get('/api/data', async (req: Request, res: Response) => {
+app.get('/api/data', async (req, res) => {
     try {
         const { symbol } = req.query;
 
@@ -69,10 +68,9 @@ app.get('/api/data', async (req: Request, res: Response) => {
 });
 
 
-app.get('/api/stocks', async (req: Request, res: Response) => {
+app.get('/api/stocks', async (req, res) => {
     try {
         const { search } = req.query;
-        console.log(search)
         const apiUrl = `https://query2.finance.yahoo.com/v1/finance/search?q=${search}&lang=en-US&region=US&quotesCount=6&enableResearchReports=false`;
 
         const apiResponse = await fetch(apiUrl);

@@ -11,6 +11,8 @@ services:
     volumes:
       - /app/node_modules
       - ./stock-market:/app
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
     networks:
       - frontend
     ports:
