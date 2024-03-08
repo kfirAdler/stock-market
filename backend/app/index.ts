@@ -1,9 +1,7 @@
 import * as express from 'express';
 import cheerio from 'cheerio';
-import cors from 'cors';
 
 const app = express();
-app.use(cors());
 
 
 async function getStockData(symbol: string) {
