@@ -7,7 +7,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
     build:
       dockerfile: Dockerfile
-      context: ./stock-market
+      context: ./
     volumes:
       - /app/node_modules
       - ./stock-market:/app
