@@ -1,46 +1,37 @@
-## running the Client
-# FROM node:13.12.0-alpine
-# COPY ./ ./
-# RUN npm install --legacy-peer-deps --silent
-# RUN npm install react-scripts@3.4.1 -g --silent 
-# RUN npm run build
-# ENTRYPOINT ["npm", "start"]
-
-
-
+# Stage 1: Build TypeScript React App
 FROM node:13.12.0-alpine as build
-RUN apk update 
-RUN apk add nginx
-COPY ./ ./
+WORKDIR /app
+COPY package*.json ./
 RUN npm install --legacy-peer-deps
-RUN npm install react-scripts@3.4.1 -g --silent
+COPY . .
 RUN npm run build
-RUN mkdir -p usr/share/nginx
-RUN mkdir -p usr/share/nginx/html
-COPY build /usr/share/nginx/html/
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /run/nginx
-VOLUME /usr/share/nginx/html
-VOLUME /etc/nginx
-EXPOSE 80
-# running the API server
+
+# Stage 2: Create the Nginx Server
 FROM node:13.12.0-alpine3.11
-COPY --from=build ./ ./
-COPY ./ ./
+RUN apk update && apk add nginx
+WORKDIR /usr/share/nginx/html
+COPY --from=build /app/build .
+
+# Remove the default Nginx configuration
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy your custom Nginx configuration
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+
+# Create necessary directories
+RUN mkdir -p /run/nginx
+
+# Expose port 80
+EXPOSE 80
+
+# Running the API server
+FROM node:13.12.0-alpine3.11
+COPY --from=build /app ./
 RUN npm install --legacy-peer-deps
-RUN apk update
-#RUN apk add ruby
-#RUN gem install fernet-cli
-#RUN apk add --no-cache \
-#    python3 \
-#    py3-pip \
-#    && pip3 install --upgrade pip \
-#    && pip3 install \
-#    awscli \
-#    && rm -rf /var/cache/apk/*
 
-#RUN aws --version 
+# ... (add the rest of your configurations)
 
-RUN ["chmod", "+x", "/backend/app/runCommands.sh"]
+# Make sure to have only one ENTRYPOINT or CMD in your Dockerfile.
+# Choose one depending on your use case.
 ENTRYPOINT ["/backend/app/runCommands.sh"]
+# or CMD ["npm", "start"]
