@@ -1,3 +1,3 @@
 #!/bin/sh
 nginx
-npx tsx /backend/app/index.ts
+node /backend/app/index.js
