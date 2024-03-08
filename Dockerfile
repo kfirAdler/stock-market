@@ -8,13 +8,13 @@
 
 
 
-FROM node:13.12.0-alpine as build
+FROM node:14.7.0-alpine as build
 RUN apk update 
 RUN apk add nginx
 COPY ./ ./
 RUN npm install --legacy-peer-deps
 RUN npm install react-scripts@3.4.1 -g --silent
-RUN npm run build
+# RUN npm run build
 RUN mkdir -p usr/share/nginx
 RUN mkdir -p usr/share/nginx/html
 COPY build /usr/share/nginx/html/
