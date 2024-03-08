@@ -1,3 +1,4 @@
 #!/bin/sh
 nginx
-node /backend/app/index.js
+# node /backend/app/index.js
+node build/index.js

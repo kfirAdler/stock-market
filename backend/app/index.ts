@@ -1,7 +1,9 @@
-import * as express from 'express';
+import express, { Request, Response } from 'express';
 import cheerio from 'cheerio';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 
 
 async function getStockData(symbol: string) {
@@ -14,7 +16,7 @@ async function getStockData(symbol: string) {
         const html = await response.text();
         const historicalData = parseStockDataFromHTML(html);
         return historicalData;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching stock data:', error.message);
         throw error;
     }
@@ -47,7 +49,7 @@ function parseStockDataFromHTML(html: string): any[] {
     return historicalData;
 }
 
-app.get('/api/data', async (req, res) => {
+app.get('/api/data', async (req: Request, res: Response) => {
     try {
         const { symbol } = req.query;
 
@@ -59,14 +61,14 @@ app.get('/api/data', async (req, res) => {
         const historicalData = await getStockData(symbol as string);
         console.log(historicalData);
         res.json(historicalData);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error in API request:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
-app.get('/api/stocks', async (req, res) => {
+app.get('/api/stocks', async (req: Request, res: Response) => {
     try {
         const { search } = req.query;
         const apiUrl = `https://query2.finance.yahoo.com/v1/finance/search?q=${search}&lang=en-US&region=US&quotesCount=6&enableResearchReports=false`;
@@ -78,7 +80,7 @@ app.get('/api/stocks', async (req, res) => {
         const symbols = responseData.quotes.map((quote: any) => quote.symbol);
 
         res.json(symbols);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error in API request:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
