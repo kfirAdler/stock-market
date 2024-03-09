@@ -17,7 +17,7 @@ VOLUME /usr/share/nginx/html
 VOLUME /etc/nginx
 EXPOSE 80
 
-WORKDIR /stock-market/
+WORKDIR /stock-market/backend/app
 
 FROM base as production
 RUN npm run build
