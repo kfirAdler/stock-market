@@ -1,4 +1,4 @@
-# Stage 1: Build React app
+# Stage 1: Build React app locally
 FROM node:14.7.0-alpine as build
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -6,8 +6,7 @@ RUN npm install --legacy-peer-deps && \
     rm -rf /var/cache/apk/
 COPY public/ public/
 COPY src/ src/
-COPY . .
-RUN npm run build
+# You've already built locally, so no need to run npm run build here
 
 # Stage 2: Build production image
 FROM node:13.12.0-alpine3.11 as production
@@ -15,6 +14,7 @@ WORKDIR /app
 COPY --from=build /app/build/ ./build/
 COPY --from=build /app/package.json /app/package-lock.json ./
 RUN npm install --production
+
 
 # Stage 3: Final image
 FROM node:13.12.0-alpine3.11
