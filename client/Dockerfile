@@ -11,6 +11,7 @@ FROM node:14-alpine
 WORKDIR /app
 COPY --from=builder /app/build /app
 COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/public /app
 RUN npm install --only=production
 EXPOSE 3000
 CMD ["npm", "run", "start"]
