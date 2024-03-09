@@ -2,7 +2,8 @@
 FROM node:14.7.0-alpine as build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install --legacy-peer-deps && \
+    rm -rf /var/cache/apk/
 COPY public/ public/
 COPY src/ src/
 RUN npm run build
