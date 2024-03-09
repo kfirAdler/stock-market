@@ -6,6 +6,7 @@ RUN npm install --legacy-peer-deps && \
     rm -rf /var/cache/apk/
 COPY public/ public/
 COPY src/ src/
+COPY . .
 RUN npm run build
 
 # Stage 2: Build production image
