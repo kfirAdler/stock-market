@@ -1,0 +1,23 @@
+.home {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .buttons {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .stockList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .p-card {
+    width: 200px;
+  }
+  
